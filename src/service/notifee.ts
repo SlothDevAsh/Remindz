@@ -1,8 +1,13 @@
-import notifee, {TimestampTrigger, TriggerType} from '@notifee/react-native';
+import notifee, {
+  TimestampTrigger,
+  RepeatFrequency,
+  TriggerType,
+} from '@notifee/react-native';
+import palette from '@utils/colors';
 
-const createChannel = async (title: string) => {
+const createChannel = async (id: string) => {
   const channelId = await notifee.createChannel({
-    id: title,
+    id: id,
     name: 'Default Channel',
   });
 };
@@ -12,27 +17,30 @@ export const onCreateTriggerNotification = async (
   description: string,
   offset: number,
 ) => {
-  await createChannel(title);
+  await createChannel(value.toISOString());
 
-  const originalDate = new Date(value);
+  // Parse the date string into a JavaScript Date object
+  const date = new Date(value);
 
-  const newDate = new Date(originalDate.getTime() + offset * 1000);
-
-  // Create a time-based trigger
-  const trigger: TimestampTrigger = {
-    type: TriggerType.TIMESTAMP,
-    timestamp: newDate.getTime(), // fire at 11:10am (10 minutes before meeting)
-  };
+  // Apply the offset to the date
+  const offsetMilliseconds = offset * 60 * 1000; // Convert offset from minutes to milliseconds
+  const timestamp = date.getTime() + offsetMilliseconds;
 
   // Create a trigger notification
-  await notifee.createTriggerNotification(
+  const res = await notifee.createTriggerNotification(
     {
       title: title,
       body: description,
       android: {
         channelId: title,
+        smallIcon: 'ic_launcher',
+        color: palette.primary,
       },
     },
-    trigger,
+    {
+      alarmManager: true,
+      timestamp: timestamp,
+      type: TriggerType.TIMESTAMP,
+    },
   );
 };

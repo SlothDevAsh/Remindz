@@ -9,7 +9,6 @@ import React, {FC} from 'react';
 import dimensions, {mScale} from '@utils/dimensions';
 import palette from '@utils/colors';
 import fonts from '@utils/fonts';
-import {APP_NAME} from '@utils/constants';
 
 type props = {
   heading: string;

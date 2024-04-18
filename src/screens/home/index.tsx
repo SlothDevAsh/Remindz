@@ -10,8 +10,6 @@ import {ScreenProps} from 'src/types/navigation';
 import palette from '@utils/colors';
 import Button from '@components/button';
 import {APP_NAME} from '@utils/constants';
-import dimensions, {mScale} from '@utils/dimensions';
-import fonts from '@utils/fonts';
 import Card from '@components/card';
 import Header from '@components/header';
 import {useQuery} from 'react-query';
@@ -67,7 +65,7 @@ const Home: FC<ScreenProps> = ({navigation, route}) => {
               data={data}
               numColumns={2}
               horizontal={false}
-              keyExtractor={(item, index) => `${index}`}
+              keyExtractor={(item, index) => `${Math.random() * 100} ${index}`}
               renderItem={({item, index}) => (
                 <Card
                   title={item.title}

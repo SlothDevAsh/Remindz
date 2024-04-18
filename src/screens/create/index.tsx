@@ -20,10 +20,6 @@ import {getDateAndTime} from '@utils/helper';
 import {storeData} from '@utils/storage';
 import {onCreateTriggerNotification} from '@service/notifee';
 
-type input = {
-  title: {value: string; error: string};
-};
-
 const Create: FC<ScreenProps> = ({navigation}) => {
   const [title, setTitle] = useState({
     value: '',
@@ -105,13 +101,15 @@ const Create: FC<ScreenProps> = ({navigation}) => {
       time: date.value.toISOString(),
     });
 
-    // triggers a notification at saved date & time
-    await onCreateTriggerNotification(
-      date.value,
-      title.value.trim(),
-      desc.value.trim(),
-      date.offset,
-    );
+    if (date.value > new Date()) {
+      // triggers a notification at saved date & time
+      await onCreateTriggerNotification(
+        date.value,
+        title.value.trim(),
+        desc.value.trim(),
+        date.offset,
+      );
+    }
 
     navigation.goBack();
   };

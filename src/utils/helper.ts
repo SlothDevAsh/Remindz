@@ -20,9 +20,11 @@ export const getDate = (value: string) => {
 };
 
 export const getDateAndTime = (value: Date, offset: number) => {
-  const offsetInSeconds = offset; // 5 minutes
+  const offsetInSeconds = offset;
 
-  const newDateTime = moment(value).add(offsetInSeconds, 'seconds');
+  // const newDateTime = moment(value).add(offsetInSeconds, 'seconds');
+
+  const newDateTime = moment(value);
 
   const dayOfWeek = newDateTime.format('dddd');
   const dayOfMonth = newDateTime.format('Do');
