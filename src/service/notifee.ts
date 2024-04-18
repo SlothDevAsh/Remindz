@@ -12,20 +12,23 @@ const createChannel = async (id: string) => {
   });
 };
 export const onCreateTriggerNotification = async (
-  value: Date,
   title: string,
   description: string,
   offset: number,
+  timestamp: number,
 ) => {
-  await createChannel(value.toISOString());
+  await createChannel(timestamp.toString());
 
   // Parse the date string into a JavaScript Date object
-  const date = new Date(value);
+  // const date = new Date(value);
 
   // Apply the offset to the date
   const offsetMilliseconds = offset * 60 * 1000; // Convert offset from minutes to milliseconds
-  const timestamp = date.getTime() + offsetMilliseconds;
+  // const timestamp = date.getTime() + offsetMilliseconds;
 
+  // const timestamp = date.getTime();
+
+  console.log(timestamp);
   // Create a trigger notification
   const res = await notifee.createTriggerNotification(
     {

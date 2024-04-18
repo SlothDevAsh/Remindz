@@ -38,3 +38,22 @@ export const getDateAndTime = (value: Date, offset: number) => {
 
   return formattedDate;
 };
+
+export const getTimeInMiliseconds = (value: Date, offset: number): number => {
+  // Given date string
+  const _date = new Date(value);
+
+  console.log('Date is ', _date);
+  // Offset in seconds
+  const offsetSeconds = offset;
+  // Convert offset from seconds to milliseconds
+  const offsetMilliseconds = offsetSeconds * 60 * 1000;
+
+  // Add the offset to the date
+  const newDate = new Date(_date.getTime() + offsetMilliseconds);
+  console.log('new date is ', newDate);
+  // Get the time of the new date in milliseconds
+  const newDateMilliseconds = newDate.getTime();
+
+  return newDateMilliseconds;
+};

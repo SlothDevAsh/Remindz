@@ -16,7 +16,7 @@ import fonts from '@utils/fonts';
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
-import {getDateAndTime} from '@utils/helper';
+import {getDateAndTime, getTimeInMiliseconds} from '@utils/helper';
 import {storeData} from '@utils/storage';
 import {onCreateTriggerNotification} from '@service/notifee';
 
@@ -38,6 +38,8 @@ const Create: FC<ScreenProps> = ({navigation}) => {
     setShow(false);
 
     if (selectedDate instanceof Date) {
+      console.log('Event is ', event);
+      console.log(selectedDate);
       setDate({
         value: selectedDate,
         error: '',
@@ -94,20 +96,22 @@ const Create: FC<ScreenProps> = ({navigation}) => {
       return;
     }
 
+    console.log(getTimeInMiliseconds(date.value, date.offset));
+    // console.log(date.value, selectedDateAndTime, getTime(selectedDateAndTime));
     // save date in local storage
-    await storeData({
-      title: title.value.trim(),
-      description: desc.value.trim(),
-      time: date.value.toISOString(),
-    });
+    // await storeData({
+    //   title: title.value.trim(),
+    //   description: desc.value.trim(),
+    //   time: date.value.toISOString(),
+    // });
 
     if (date.value > new Date()) {
       // triggers a notification at saved date & time
       await onCreateTriggerNotification(
-        date.value,
         title.value.trim(),
         desc.value.trim(),
         date.offset,
+        getTimeInMiliseconds(date.value, date.offset),
       );
     }
 
